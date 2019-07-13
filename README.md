@@ -1,8 +1,9 @@
-# SpectralNet
+# Deep-Spectral-Clustering-using-Dual-Autoencoder-Network
+
 
 
 ## requirements
-To run SpectralNet, you'll need Python 3.x and the following python packages:
+You'll need Python 3.x and the following python packages:
 - scikit-learn
 - tensorflow
 - munkres
