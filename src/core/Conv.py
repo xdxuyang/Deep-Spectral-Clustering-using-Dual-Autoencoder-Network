@@ -161,7 +161,7 @@ class ConvAE:
         kl_loss = - 0.5 * (1 + z_log_var - K.square(z_mean - z_prior_mean) - K.exp(z_log_var))
         kl_loss = K.mean(K.batch_dot(K.expand_dims(y, 1),kl_loss), 0)
         cat_loss = K.mean(y * K.log(y + K.epsilon()), 0)
-        loss_vae = lamb * K.sum(xent_loss) + lamb * K.sum(xent1_loss)+1.5*K.sum(kl_loss)+1*K.sum(cat_loss)
+        loss_vae = lamb * K.sum(xent_loss) + lamb * K.sum(xent1_loss)+1.5*K.sum(kl_loss)+1*K.sum(cat_loss)+0.1*K.sum(global_info_loss)
         self.loss=(loss_SPNet+loss_vae)
         self.learning_rate = tf.Variable(0., name='spectral_net_learning_rate')
         self.train_step1 = tf.train.AdamOptimizer().minimize(self.loss,var_list=self.vae.weights)
