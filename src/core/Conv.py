@@ -52,8 +52,8 @@ class ConvAE:
         h_shape = K.int_shape(h)[1:]
         h = Flatten()(h)
 
-        z_mean = Dense(latent_dim)(h) # p(z|x)的均值
-        z_log_var = Dense(latent_dim)(h) # p(z|x)的方差
+        z_mean = Dense(latent_dim)(h)
+        z_log_var = Dense(latent_dim)(h)
 
         self.encoder = Model(x, z_mean)
 
@@ -90,18 +90,14 @@ class ConvAE:
 
         self.Dy = tf.placeholder(tf.float32, [None, 10], name='Dy')
 
-        # def GCN(m):
-        #     return tf.matmul(LI,m)
+     
         z = Input(shape=(latent_dim,))
         y = Dense(1024, activation='relu')(z)
-        # y = Lambda(GCN)(y)
         y = Dense(1024, activation='relu')(y)
-        # y = Lambda(GCN)(y)
         y = Dense(512, activation='relu')(y)
-        # y = Lambda(GCN)(y)
         y = Dense(num_classes, activation='softmax')(y)
 
-        self.classfier = Model(z, y)  # 隐变量分类器
+        self.classfier = Model(z, y)
 
         y = self.classfier(z_mean)
 
@@ -206,9 +202,6 @@ class ConvAE:
         return return_vars_
 
 class Gaussian(Layer):
-    """这是个简单的层，只为定义q(z|y)中的均值参数，每个类别配一个均值。
-    输出也只是把这些均值输出，为后面计算loss准备，本身没有任何运算。
-    """
     def __init__(self, num_classes, **kwargs):
         self.num_classes = num_classes
         super(Gaussian, self).__init__(**kwargs)
